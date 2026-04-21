@@ -226,14 +226,14 @@ function ScratchCard({ children }) {
         }
 
         // Spawn gold spark particles
-        for(let i=0; i<4; i++) {
+        for (let i = 0; i < 4; i++) {
           particles.push({
-            x: x + (Math.random()-0.5)*20,
-            y: y + (Math.random()-0.5)*20,
-            vx: (Math.random()-0.5)*5,
-            vy: (Math.random()-0.5)*5 - 2, // slightly upwards
+            x: x + (Math.random() - 0.5) * 20,
+            y: y + (Math.random() - 0.5) * 20,
+            vx: (Math.random() - 0.5) * 5,
+            vy: (Math.random() - 0.5) * 5 - 2, // slightly upwards
             life: 1,
-            size: Math.random()*3 + 1,
+            size: Math.random() * 3 + 1,
             hue: Math.random() > 0.5 ? '#fceabb' : '#c9a045'
           });
         }
@@ -246,7 +246,7 @@ function ScratchCard({ children }) {
         lastPos = getMousePos(e);
         scratch(e);
       };
-      
+
       let scratchComplete = false;
       let scratchCount = 0;
       const endDrawing = () => {
@@ -263,21 +263,21 @@ function ScratchCard({ children }) {
         for (let i = 3; i < data.length; i += 4) {
           if (data[i] === 0) clearPixels++;
         }
-        
+
         // Reveal if user has swiped 1 time or cleared more than 5% of the card
         if (scratchCount >= 1 || clearPixels / (data.length / 4) > 0.05) {
           setIsScratched(true);
           scratchComplete = true;
           // Big explosion of particles!
-          for(let i=0; i<150; i++) {
-             particles.push({
-              x: canvas.width/2,
-              y: canvas.height/2,
-              vx: (Math.random()-0.5)*20,
-              vy: (Math.random()-0.5)*20,
+          for (let i = 0; i < 150; i++) {
+            particles.push({
+              x: canvas.width / 2,
+              y: canvas.height / 2,
+              vx: (Math.random() - 0.5) * 20,
+              vy: (Math.random() - 0.5) * 20,
               life: 1,
-              size: Math.random()*5 + 2,
-              hue: ['#fceabb', '#c9a045', '#fffdf5', '#8a6d3b'][Math.floor(Math.random()*4)]
+              size: Math.random() * 5 + 2,
+              hue: ['#fceabb', '#c9a045', '#fffdf5', '#8a6d3b'][Math.floor(Math.random() * 4)]
             });
           }
         }
@@ -293,22 +293,22 @@ function ScratchCard({ children }) {
       // Particle rendering loop
       const renderParticles = () => {
         pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
-        for(let i=particles.length-1; i>=0; i--) {
+        for (let i = particles.length - 1; i >= 0; i--) {
           let p = particles[i];
           p.x += p.vx;
           p.y += p.vy;
           p.vy += 0.15; // gravity
           p.life -= 0.02; // fade out
-          
-          if(p.life <= 0) {
+
+          if (p.life <= 0) {
             particles.splice(i, 1);
             continue;
           }
-          
+
           pCtx.globalAlpha = Math.max(0, p.life);
           pCtx.fillStyle = p.hue;
           pCtx.beginPath();
-          pCtx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+          pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           pCtx.fill();
         }
         pCtx.globalAlpha = 1;
@@ -323,7 +323,7 @@ function ScratchCard({ children }) {
         canvas.removeEventListener('touchstart', startDrawing);
         canvas.removeEventListener('touchmove', scratch);
         window.removeEventListener('touchend', endDrawing);
-        if(animationRef.current) cancelAnimationFrame(animationRef.current);
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
       };
     }, 100);
 
@@ -335,8 +335,8 @@ function ScratchCard({ children }) {
       position: 'relative', display: 'inline-block', margin: '0 auto',
       padding: '24px 40px', minWidth: '320px',
     }}>
-      <div style={{ 
-        opacity: 1, 
+      <div style={{
+        opacity: 1,
         transition: 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)',
         transform: isScratched ? 'scale(1.05)' : 'scale(1)',
       }}>
@@ -721,7 +721,7 @@ function InvitationCard() {
               <Tile value={s} label="Secs" />
             </div>
           </div>
-          
+
           {/* Footer */}
           <div style={{ textAlign: "center", ...fade(0.6), marginTop: "60px", marginBottom: "10px" }}>
             <div style={{
@@ -731,9 +731,9 @@ function InvitationCard() {
               letterSpacing: "0.05em",
             }}>
               Made with <span style={{ color: "#c9a045" }}>♥</span> by{' '}
-              <a 
-                href="https://wa.me/918921229989?text=Hi!%20I%20would%20like%20to%20enquire%20about%20a%20digital%20invitation%20card." 
-                target="_blank" 
+              <a
+                href="https://wa.me/918921229989?text=Hi!%20I%20would%20like%20to%20enquire%20about%20a%20digital%20invitation%20card."
+                target="_blank"
                 rel="noopener noreferrer"
                 style={{
                   color: "#1a5c36",
@@ -789,7 +789,7 @@ export default function App() {
     <>
       <audio ref={audioRef} src="/bgm.m4a" loop />
       {opened ? <InvitationCard /> : <CurtainPage onInteract={handleInteract} onOpen={() => setOpened(true)} />}
-      
+
       {hasInteracted && (
         <button
           onClick={toggleMute}
